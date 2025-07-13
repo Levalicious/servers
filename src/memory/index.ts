@@ -160,7 +160,7 @@ class KnowledgeGraphManager {
     return filteredGraph;
   }
 
-  async openNodes(names: string[]): Promise<KnowledgeGraph> {
+  async openNodesFiltered(names: string[]): Promise<KnowledgeGraph> {
     const graph = await this.loadGraph();
     
     // Filter entities
@@ -180,6 +180,147 @@ class KnowledgeGraphManager {
     };
   
     return filteredGraph;
+  }
+
+  async openNodes(names: string[]): Promise<KnowledgeGraph> {
+    const graph = await this.loadGraph();
+    
+    // Filter entities
+    const filteredEntities = graph.entities.filter(e => names.includes(e.name));
+  
+    // Create a Set of filtered entity names for quick lookup
+    const filteredEntityNames = new Set(filteredEntities.map(e => e.name));
+  
+    // Filter relations to only include those between filtered entities
+    const filteredRelations = graph.relations.filter(r => filteredEntityNames.has(r.from));
+  
+    const filteredGraph: KnowledgeGraph = {
+      entities: filteredEntities,
+      relations: filteredRelations,
+    };
+  
+    return filteredGraph;
+  }
+
+  async getNeighbors(entityName: string, depth: number = 1): Promise<KnowledgeGraph> {
+    const graph = await this.loadGraph();
+    const visited = new Set<string>();
+    const resultEntities = new Map<string, Entity>();
+    const resultRelations: Relation[] = [];
+    
+    const traverse = (currentName: string, currentDepth: number) => {
+      if (currentDepth > depth || visited.has(currentName)) return;
+      visited.add(currentName);
+      
+      const entity = graph.entities.find(e => e.name === currentName);
+      if (entity) {
+        resultEntities.set(currentName, entity);
+      }
+      
+      // Find all relations involving this entity
+      const connectedRelations = graph.relations.filter(r => 
+        r.from === currentName || r.to === currentName
+      );
+      
+      resultRelations.push(...connectedRelations);
+      
+      if (currentDepth < depth) {
+        // Traverse to connected entities
+        connectedRelations.forEach(r => {
+          const nextEntity = r.from === currentName ? r.to : r.from;
+          traverse(nextEntity, currentDepth + 1);
+        });
+      }
+    };
+    
+    traverse(entityName, 0);
+    
+    return {
+      entities: Array.from(resultEntities.values()),
+      relations: resultRelations
+    };
+  }
+
+  async findPath(fromEntity: string, toEntity: string, maxDepth: number = 5): Promise<Relation[]> {
+    const graph = await this.loadGraph();
+    const visited = new Set<string>();
+    
+    const dfs = (current: string, target: string, path: Relation[], depth: number): Relation[] | null => {
+      if (depth > maxDepth || visited.has(current)) return null;
+      if (current === target) return path;
+      
+      visited.add(current);
+      
+      const outgoingRelations = graph.relations.filter(r => r.from === current);
+      for (const relation of outgoingRelations) {
+        const result = dfs(relation.to, target, [...path, relation], depth + 1);
+        if (result) return result;
+      }
+      
+      visited.delete(current);
+      return null;
+    };
+    
+    return dfs(fromEntity, toEntity, [], 0) || [];
+  }
+
+  async getEntitiesByType(entityType: string): Promise<Entity[]> {
+    const graph = await this.loadGraph();
+    return graph.entities.filter(e => e.entityType === entityType);
+  }
+
+  async getEntityTypes(): Promise<string[]> {
+    const graph = await this.loadGraph();
+    const types = new Set(graph.entities.map(e => e.entityType));
+    return Array.from(types).sort();
+  }
+
+  async getRelationTypes(): Promise<string[]> {
+    const graph = await this.loadGraph();
+    const types = new Set(graph.relations.map(r => r.relationType));
+    return Array.from(types).sort();
+  }
+
+  async getStats(): Promise<{ entityCount: number; relationCount: number; entityTypes: number; relationTypes: number }> {
+    const graph = await this.loadGraph();
+    const entityTypes = new Set(graph.entities.map(e => e.entityType));
+    const relationTypes = new Set(graph.relations.map(r => r.relationType));
+    
+    return {
+      entityCount: graph.entities.length,
+      relationCount: graph.relations.length,
+      entityTypes: entityTypes.size,
+      relationTypes: relationTypes.size
+    };
+  }
+
+  async getOrphanedEntities(): Promise<Entity[]> {
+    const graph = await this.loadGraph();
+    const connectedEntityNames = new Set<string>();
+    
+    graph.relations.forEach(r => {
+      connectedEntityNames.add(r.from);
+      connectedEntityNames.add(r.to);
+    });
+    
+    return graph.entities.filter(e => !connectedEntityNames.has(e.name));
+  }
+
+  async validateGraph(): Promise<string[]> {
+    const graph = await this.loadGraph();
+    const entityNames = new Set(graph.entities.map(e => e.name));
+    const missingEntities = new Set<string>();
+    
+    graph.relations.forEach(r => {
+      if (!entityNames.has(r.from)) {
+        missingEntities.add(r.from);
+      }
+      if (!entityNames.has(r.to)) {
+        missingEntities.add(r.to);
+      }
+    });
+    
+    return Array.from(missingEntities);
   }
 }
 
@@ -355,6 +496,21 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         },
       },
       {
+        name: "open_nodes_filtered",
+        description: "Open specific nodes in the knowledge graph by their names, filtering relations to only those between the opened nodes",
+        inputSchema: {
+          type: "object",
+          properties: {
+            names: {
+              type: "array",
+              items: { type: "string" },
+              description: "An array of entity names to retrieve",
+            },
+          },
+          required: ["names"],
+        },
+      },
+      {
         name: "open_nodes",
         description: "Open specific nodes in the knowledge graph by their names",
         inputSchema: {
@@ -367,6 +523,82 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
           },
           required: ["names"],
+        },
+      },
+      {
+        name: "get_neighbors",
+        description: "Get neighboring entities connected to a specific entity within a given depth",
+        inputSchema: {
+          type: "object",
+          properties: {
+            entityName: { type: "string", description: "The name of the entity to find neighbors for" },
+            depth: { type: "number", description: "Maximum depth to traverse (default: 1)", default: 1 },
+          },
+          required: ["entityName"],
+        },
+      },
+      {
+        name: "find_path",
+        description: "Find a path between two entities in the knowledge graph",
+        inputSchema: {
+          type: "object",
+          properties: {
+            fromEntity: { type: "string", description: "The name of the starting entity" },
+            toEntity: { type: "string", description: "The name of the target entity" },
+            maxDepth: { type: "number", description: "Maximum depth to search (default: 5)", default: 5 },
+          },
+          required: ["fromEntity", "toEntity"],
+        },
+      },
+      {
+        name: "get_entities_by_type",
+        description: "Get all entities of a specific type",
+        inputSchema: {
+          type: "object",
+          properties: {
+            entityType: { type: "string", description: "The type of entities to retrieve" },
+          },
+          required: ["entityType"],
+        },
+      },
+      {
+        name: "get_entity_types",
+        description: "Get all unique entity types in the knowledge graph",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
+      {
+        name: "get_relation_types",
+        description: "Get all unique relation types in the knowledge graph",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
+      {
+        name: "get_stats",
+        description: "Get statistics about the knowledge graph",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
+      {
+        name: "get_orphaned_entities",
+        description: "Get entities that have no relations (orphaned entities)",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
+      {
+        name: "validate_graph",
+        description: "Validate the knowledge graph and return a list of missing entities referenced in relations",
+        inputSchema: {
+          type: "object",
+          properties: {},
         },
       },
     ],
@@ -400,8 +632,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.readGraph(), null, 2) }] };
     case "search_nodes":
       return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.searchNodes(args.query as string), null, 2) }] };
+    case "open_nodes_filtered":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.openNodesFiltered(args.names as string[]), null, 2) }] };
     case "open_nodes":
       return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.openNodes(args.names as string[]), null, 2) }] };
+    case "get_neighbors":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getNeighbors(args.entityName as string, args.depth as number), null, 2) }] };
+    case "find_path":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.findPath(args.fromEntity as string, args.toEntity as string, args.maxDepth as number), null, 2) }] };
+    case "get_entities_by_type":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getEntitiesByType(args.entityType as string), null, 2) }] };
+    case "get_entity_types":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getEntityTypes(), null, 2) }] };
+    case "get_relation_types":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getRelationTypes(), null, 2) }] };
+    case "get_stats":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getStats(), null, 2) }] };
+    case "get_orphaned_entities":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.getOrphanedEntities(), null, 2) }] };
+    case "validate_graph":
+      return { content: [{ type: "text", text: JSON.stringify(await knowledgeGraphManager.validateGraph(), null, 2) }] };
     default:
       throw new Error(`Unknown tool: ${name}`);
   }

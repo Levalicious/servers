@@ -19,8 +19,8 @@
     "link-all": "npm link --workspaces"
   },
   "dependencies": {
+    "@levalicious/server-memory": "^0.6.4",
     "@modelcontextprotocol/server-everything": "*",
-    "@modelcontextprotocol/server-memory": "*",
     "@modelcontextprotocol/server-filesystem": "*",
     "@modelcontextprotocol/server-sequential-thinking": "*"
   }
