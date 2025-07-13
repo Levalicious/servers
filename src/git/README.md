@@ -1,10 +1,10 @@
-# mcp-server-git: A git MCP server
+# levalicious-mcp-server-git: A git MCP server
 
 ## Overview
 
 A Model Context Protocol server for Git repository interaction and automation. This server provides tools to read, search, and manipulate Git repositories via Large Language Models.
 
-Please note that mcp-server-git is currently in early development. The functionality and available tools are subject to change and expansion as we continue to develop and improve the server.
+Please note that levalicious-mcp-server-git is currently in early development. The functionality and available tools are subject to change and expansion as we continue to develop and improve the server.
 
 ### Tools
 
@@ -102,20 +102,20 @@ Please note that mcp-server-git is currently in early development. The functiona
 ### Using uv (recommended)
 
 When using [`uv`](https://docs.astral.sh/uv/) no specific installation is needed. We will
-use [`uvx`](https://docs.astral.sh/uv/guides/tools/) to directly run *mcp-server-git*.
+use [`uvx`](https://docs.astral.sh/uv/guides/tools/) to directly run *levalicious-mcp-server-git*.
 
 ### Using PIP
 
-Alternatively you can install `mcp-server-git` via pip:
+Alternatively you can install `levalicious-mcp-server-git` via pip:
 
 ```
-pip install mcp-server-git
+pip install levalicious-mcp-server-git
 ```
 
 After installation, you can run it as a script using:
 
 ```
-python -m mcp_server_git
+python -m levalicious_mcp_server_git
 ```
 
 ## Configuration
@@ -131,7 +131,7 @@ Add this to your `claude_desktop_config.json`:
 "mcpServers": {
   "git": {
     "command": "uvx",
-    "args": ["mcp-server-git", "--repository", "path/to/git/repo"]
+    "args": ["levalicious-mcp-server-git", "--repository", "path/to/git/repo"]
   }
 }
 ```
@@ -159,7 +159,7 @@ Add this to your `claude_desktop_config.json`:
 "mcpServers": {
   "git": {
     "command": "python",
-    "args": ["-m", "mcp_server_git", "--repository", "path/to/git/repo"]
+    "args": ["-m", "levalicious_mcp_server_git", "--repository", "path/to/git/repo"]
   }
 }
 ```
@@ -169,7 +169,7 @@ Add this to your `claude_desktop_config.json`:
 
 For quick installation, use one of the one-click install buttons below...
 
-[![Install with UV in VS Code](https://img.shields.io/badge/VS_Code-UV-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22mcp-server-git%22%5D%7D) [![Install with UV in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-UV-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22mcp-server-git%22%5D%7D&quality=insiders)
+[![Install with UV in VS Code](https://img.shields.io/badge/VS_Code-UV-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22levalicious-mcp-server-git%22%5D%7D) [![Install with UV in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-UV-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22levalicious-mcp-server-git%22%5D%7D&quality=insiders)
 
 [![Install with Docker in VS Code](https://img.shields.io/badge/VS_Code-Docker-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22--rm%22%2C%22-i%22%2C%22--mount%22%2C%22type%3Dbind%2Csrc%3D%24%7BworkspaceFolder%7D%2Cdst%3D%2Fworkspace%22%2C%22mcp%2Fgit%22%5D%7D) [![Install with Docker in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Docker-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=git&config=%7B%22command%22%3A%22docker%22%2C%22args%22%3A%5B%22run%22%2C%22--rm%22%2C%22-i%22%2C%22--mount%22%2C%22type%3Dbind%2Csrc%3D%24%7BworkspaceFolder%7D%2Cdst%3D%2Fworkspace%22%2C%22mcp%2Fgit%22%5D%7D&quality=insiders)
 
@@ -185,7 +185,7 @@ Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace
     "servers": {
       "git": {
         "command": "uvx",
-        "args": ["mcp-server-git"]
+        "args": ["levalicious-mcp-server-git"]
       }
     }
   }
@@ -222,10 +222,10 @@ Add to your Zed settings.json:
 
 ```json
 "context_servers": [
-  "mcp-server-git": {
+  "levalicious-mcp-server-git": {
     "command": {
       "path": "uvx",
-      "args": ["mcp-server-git"]
+      "args": ["levalicious-mcp-server-git"]
     }
   }
 ],
@@ -237,10 +237,10 @@ Add to your Zed settings.json:
 
 ```json
 "context_servers": {
-  "mcp-server-git": {
+  "levalicious-mcp-server-git": {
     "command": {
       "path": "python",
-      "args": ["-m", "mcp_server_git"]
+      "args": ["-m", "levalicious_mcp_server_git"]
     }
   }
 },
@@ -252,14 +252,14 @@ Add to your Zed settings.json:
 You can use the MCP inspector to debug the server. For uvx installations:
 
 ```
-npx @modelcontextprotocol/inspector uvx mcp-server-git
+npx @modelcontextprotocol/inspector uvx levalicious-mcp-server-git
 ```
 
 Or if you've installed the package in a specific directory or are developing on it:
 
 ```
 cd path/to/servers/src/git
-npx @modelcontextprotocol/inspector uv run mcp-server-git
+npx @modelcontextprotocol/inspector uv run levalicious-mcp-server-git
 ```
 
 Running `tail -n 20 -f ~/Library/Logs/Claude/mcp*.log` will show the logs from the server and may
@@ -304,7 +304,7 @@ If you are doing local development, there are two ways to test your changes:
       "--directory",
       "/<path to mcp-servers>/mcp-servers/src/git",
       "run",
-      "mcp-server-git"
+      "levalicious-mcp-server-git"
     ]
     }
   }

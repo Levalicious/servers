@@ -1021,11 +1021,11 @@ Python-based servers in this repository can be used directly with [`uvx`](https:
 For example, this will start the [Git](src/git) server:
 ```sh
 # With uvx
-uvx mcp-server-git
+uvx levalicious-mcp-server-git
 
 # With pip
-pip install mcp-server-git
-python -m mcp_server_git
+pip install levalicious-mcp-server-git
+python -m levalicious_mcp_server_git
 ```
 
 Follow [these](https://docs.astral.sh/uv/getting-started/installation/) instructions to install `uv` / `uvx` and [these](https://pip.pypa.io/en/stable/installation/) to install `pip`.
@@ -1055,7 +1055,7 @@ Additional examples of using the Claude Desktop as an MCP client might look like
     },
     "git": {
       "command": "uvx",
-      "args": ["mcp-server-git", "--repository", "path/to/git/repo"]
+      "args": ["levalicious-mcp-server-git", "--repository", "path/to/git/repo"]
     },
     "github": {
       "command": "npx",

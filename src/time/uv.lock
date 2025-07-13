@@ -159,7 +159,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-server-time"
+name = "levalicious-mcp-server-time"
 version = "0.6.2"
 source = { editable = "." }
 dependencies = [

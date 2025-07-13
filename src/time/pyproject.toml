@@ -1,5 +1,5 @@
 [project]
-name = "mcp-server-time"
+name = "levalicious-mcp-server-time"
 version = "0.6.2"
 description = "A Model Context Protocol server providing tools for time queries and timezone conversions for LLMs"
 readme = "README.md"
@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-server-time = "mcp_server_time:main"
+levalicious-mcp-server-time = "levalicious_mcp_server_time:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 import git
-from mcp_server_git.server import git_checkout, git_branch
+from levalicious_mcp_server_git.server import git_checkout, git_branch
 import shutil
 
 @pytest.fixture
