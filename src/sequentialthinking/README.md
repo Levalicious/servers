@@ -52,7 +52,7 @@ Add this to your `claude_desktop_config.json`:
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "@levalicious/server-sequential-thinking"
       ]
     }
   }
@@ -104,7 +104,7 @@ For NPX installation:
         "command": "npx",
         "args": [
           "-y",
-          "@modelcontextprotocol/server-sequential-thinking"
+          "@levalicious/server-sequential-thinking"
         ]
       }
     }

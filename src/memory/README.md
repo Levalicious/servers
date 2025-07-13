@@ -152,7 +152,7 @@ Add this to your claude_desktop_config.json:
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-memory"
+        "@levalicious/server-memory"
       ]
     }
   }
@@ -170,7 +170,7 @@ The server can be configured using the following environment variables:
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-memory"
+        "@levalicious/server-memory"
       ],
       "env": {
         "MEMORY_FILE_PATH": "/path/to/custom/memory.json"
@@ -206,7 +206,7 @@ Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace
         "command": "npx",
         "args": [
           "-y",
-          "@modelcontextprotocol/server-memory"
+          "@levalicious/server-memory"
         ]
       }
     }

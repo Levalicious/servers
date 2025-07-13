@@ -145,7 +145,7 @@ Add to your `claude_desktop_config.json`:
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-everything"
+        "@levalicious/server-everything"
       ]
     }
   }
@@ -174,7 +174,7 @@ Optionally, you can add it to a file called `.vscode/mcp.json` in your workspace
     "servers": {
       "everything": {
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-everything"]
+        "args": ["-y", "@levalicious/server-everything"]
       }
     }
   }
@@ -200,26 +200,26 @@ npm run start:streamableHttp
 ## Running as an installed package
 ### Install 
 ```shell
-npm install -g @modelcontextprotocol/server-everything@latest
+npm install -g @levalicious/server-everything@latest
 ````
 
 ### Run the default (stdio) server
 ```shell
-npx @modelcontextprotocol/server-everything
+npx @levalicious/server-everything
 ```
 
 ### Or specify stdio explicitly
 ```shell
-npx @modelcontextprotocol/server-everything stdio
+npx @levalicious/server-everything stdio
 ```
 
 ### Run the SSE server
 ```shell
-npx @modelcontextprotocol/server-everything sse
+npx @levalicious/server-everything sse
 ```
 
 ### Run the streamable HTTP server
 ```shell
-npx @modelcontextprotocol/server-everything streamableHttp
+npx @levalicious/server-everything streamableHttp
 ```
 

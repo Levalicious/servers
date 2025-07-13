@@ -1013,7 +1013,7 @@ Typescript-based servers in this repository can be used directly with `npx`.
 
 For example, this will start the [Memory](src/memory) server:
 ```sh
-npx -y @modelcontextprotocol/server-memory
+npx -y @levalicious/server-memory
 ```
 
 Python-based servers in this repository can be used directly with [`uvx`](https://docs.astral.sh/uv/concepts/tools/) or [`pip`](https://pypi.org/project/pip/). `uvx` is recommended for ease of use and setup.
@@ -1038,7 +1038,7 @@ However, running a server on its own isn't very useful, and should instead be co
   "mcpServers": {
     "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
+      "args": ["-y", "@levalicious/server-memory"]
     }
   }
 }
@@ -1051,7 +1051,7 @@ Additional examples of using the Claude Desktop as an MCP client might look like
   "mcpServers": {
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/files"]
+      "args": ["-y", "@levalicious/server-filesystem", "/path/to/allowed/files"]
     },
     "git": {
       "command": "uvx",
@@ -1059,14 +1059,14 @@ Additional examples of using the Claude Desktop as an MCP client might look like
     },
     "github": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "args": ["-y", "@levalicious/server-github"],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
       }
     },
     "postgres": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"]
+      "args": ["-y", "@levalicious/server-postgres", "postgresql://localhost/mydb"]
     }
   }
 }

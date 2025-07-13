@@ -321,7 +321,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-server-fetch"
+name = "levalicious-mcp-server-fetch"
 version = "0.6.2"
 source = { editable = "." }
 dependencies = [

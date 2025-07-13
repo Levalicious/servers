@@ -1,5 +1,5 @@
 {
-  "name": "@modelcontextprotocol/servers",
+  "name": "@levalicious/servers",
   "private": true,
   "version": "0.6.2",
   "description": "Model Context Protocol servers",
@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@levalicious/server-memory": "^0.6.4",
-    "@modelcontextprotocol/server-everything": "*",
-    "@modelcontextprotocol/server-filesystem": "*",
-    "@modelcontextprotocol/server-sequential-thinking": "*"
+    "@levalicious/server-everything": "*",
+    "@levalicious/server-filesystem": "*",
+    "@levalicious/server-sequential-thinking": "*"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@modelcontextprotocol/server-everything",
+  "name": "@levalicious/server-everything",
   "version": "0.6.2",
   "description": "MCP server that exercises all the features of the MCP protocol",
   "license": "MIT",

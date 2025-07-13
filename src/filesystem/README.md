@@ -184,7 +184,7 @@ Note: all directories must be mounted to `/projects` by default.
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-filesystem",
+        "@levalicious/server-filesystem",
         "/Users/username/Desktop",
         "/path/to/other/allowed/dir"
       ]
@@ -242,7 +242,7 @@ Note: all directories must be mounted to `/projects` by default.
         "command": "npx",
         "args": [
           "-y",
-          "@modelcontextprotocol/server-filesystem",
+          "@levalicious/server-filesystem",
           "${workspaceFolder}"
         ]
       }
