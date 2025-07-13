@@ -120,7 +120,7 @@ export const createServer = () => {
   const server = new Server(
     {
       name: "example-servers/everything",
-      version: "1.0.0",
+      version: "0.0.0",
     },
     {
       capabilities: {

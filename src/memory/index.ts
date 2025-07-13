@@ -330,7 +330,7 @@ const knowledgeGraphManager = new KnowledgeGraphManager();
 // The server instance and tools exposed to Claude
 const server = new Server({
   name: "memory-server",
-  version: "0.6.3",
+  version: "0.0.0",
 },    {
     capabilities: {
       tools: {},
